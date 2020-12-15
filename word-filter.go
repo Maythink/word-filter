@@ -9,6 +9,7 @@ type Node struct {
 	val       rune
 	path      string
 	term      bool
+	end       bool
 	depth     int
 	meta      interface{}
 	mask      uint64
@@ -62,7 +63,7 @@ func (t *Trie) Add(key string, meta interface{}) *Node {
 		}
 		node.termCount++
 		if i == len(runes)-1 {
-			node.term = true
+			node.end = true
 		}
 	}
 	node = node.NewChild(nul, key, 0, meta, true)
@@ -224,7 +225,7 @@ func collect(node *Node) []string {
 		n *Node
 		i int
 	)
-	keys := make([]string, 0, node.termCount)
+	var keys []string
 	nodes := make([]*Node, 1, len(node.children))
 	nodes[0] = node
 	for l := len(nodes); l != 0; l = len(nodes) {
@@ -310,7 +311,7 @@ func (t *Trie) Filter(text, replace string) (result string, hit bool) {
 				break
 			} else {
 				node = ret
-				if ret.term {
+				if ret.end {
 					macthEnd = true
 					hit = true
 					if j == len(chars)-1 {
@@ -327,38 +328,3 @@ func (t *Trie) Filter(text, replace string) (result string, hit bool) {
 	result = string(left)
 	return
 }
-
-// func (t *Trie) Filter(text, replace string) (result string, hit bool) {
-// 	chars := []rune(text)
-// 	if t.root == nil {
-// 		return
-// 	}
-// 	var left []rune
-// 	node := t.root
-// 	var start int
-// 	for k := 0; k < len(chars); k++ {
-// 		for j := k; j < len(chars); j++ {
-// 			if ret, ok := node.children[chars[j]]; !ok {
-
-// 				left = append(left, chars[start:k+1]...)
-// 				start = k + 1
-// 				node = t.root
-// 				break
-// 			} else {
-// 				node = ret
-// 				if ret.term {
-// 					hit = true
-// 					node = t.root
-// 					for n := start; n < j+1; n++ {
-// 						left = append(left, ([]rune(replace))...)
-// 					}
-// 					start = j + 1
-// 					k = j
-// 					break
-// 				}
-// 			}
-// 		}
-// 	}
-// 	result = string(left)
-// 	return
-// }

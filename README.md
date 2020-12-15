@@ -15,13 +15,14 @@ Add Keys with:
 // Add can take in meta information which can be stored with the key.
 // i.e. you could store any information you would like to associate with
 // this particular key.
-f.Add("foobar", 1)
+f.Add("大法", 1)
+f.Add("大法师", 1)
 ```
 
 Find a key with:
 
 ```Go
-node, ok := t.Find("foobar")
+node, ok := t.Find("大法")
 meta := node.Meta()
 // use meta with meta.(type)
 ```
@@ -29,28 +30,28 @@ meta := node.Meta()
 Remove Keys with:
 
 ```Go
-f.Remove("foobar")
+f.Remove("大法师")
 ```
 
 Word filter with:
 
 ```Go
-f.Filter("fo","*")
+f.Filter("大法师","*")
 ```
 
 Prefix search with:
 
 ```Go
-f.PrefixSearch("foo")
+f.PrefixSearch("大")
 ```
 
 Fast test for valid prefix:
 ```Go
-f.HasKeysWithPrefix("foo")
+f.HasKeysWithPrefix("大")
 ```
 
 Fuzzy search with:
 
 ```Go
-f.FuzzySearch("fb")
+f.FuzzySearch("大")
 ```
